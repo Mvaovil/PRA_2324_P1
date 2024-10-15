@@ -16,7 +16,6 @@ class ListLinked : public List<T> {
 		Node<T>* getFirst() const;
 		template <typename U>		
 		friend std::ostream& operator<<(std::ostream &out, const ListLinked<T> &list);
-
 		//heredados
 		void insert(int pos, T e) override final;
 		void append(T e) override final;
