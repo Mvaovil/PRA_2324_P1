@@ -81,7 +81,7 @@ void ListLinked<T>::insert(int pos, T e){
 		throw std::out_of_range("Posicion incorrecta");
 	}
 	else{
-		Node<T>* newNode = new Node<T>;{e, nullptr;};
+		Node<T>* newNode = new Node<T>(e, nullptr);
 		if(pos == 0){
 			newNode->next = first;
 			first = newNode;
