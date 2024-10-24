@@ -11,13 +11,13 @@ class ListArray : public List<T> {
 	static const int MINSIZE;
 	void resize(int new_size);
     public:
-    	ListArray();
+   	ListArray();
 	~ListArray();
-	T operator[](int pos) const override final;
+	T operator[](int pos);
 	friend std::ostream& operator<<(std::ostream &out, const ListArray<T> &list);
 	void insert(int pos, T e) override final;
-	void insert(int pos, T e) override final;
 	void prepend(T e) override final;
+	void append(T e) override final;
 	T remove(int pos) override final;
 	T get(int pos) override final;
 	int search(T e) override final ;
@@ -29,32 +29,32 @@ template <typename T>
 const int ListArray<T>::MINSIZE = 2;
 
 template <typename T>
-ListArray(){
+ListArray<T>::ListArray(){
 	new T[MINSIZE];
 	max=MINSIZE;
 	n= 0;
 }
 template <typename T>
-ListArray::~ListArray(){
+ListArray<T>::~ListArray(){
 	delete[] arr;
 }
 template <typename T>
-T ListArray::operator[]int pos{
+T ListArray<T>::operator[](int pos){
 	if (pos<0 || pos>size()-1){
-	throw std::out of range("Está fuera del intervalo [0,size()-1]";
+		throw std::out_of_range("Está fuera del intervalo [0,size()-1]");
 	}else{
-	return arr pos;
+		return arr[pos];
 	}
 }
 template <typename T>
-std::ostream& operatdor<<(std::ostream &out, const ListArray<T> &list){
+std::ostream& operator<<(std::ostream &out, const ListArray<T> &list){
 	for(int i=0; i<list.n; i++){
-	out << list.arr[i] << " ";
+		out << list.arr[i] << " ";
 	} 	
 	return out;		
 }
 template <typename T>
-void resize(int new_size){
+void ListArray<T>::resize(int new_size){
 	T* new_arr = new T[new_size];
 	for(int i=0; i<n;i++){
 		new_arr[i]=arr[i];
@@ -62,6 +62,71 @@ void resize(int new_size){
 	delete[] arr;
 	arr= new_arr;
 	
-	max=new_size
+	max=new_size;
 } 	
 
+template <typename T>
+void ListArray<T>::insert(int pos,T e){
+	if(pos<0 || pos>size()){
+		throw std::out_of_range("Está fuera del intervalo [0,size()]");
+	}else{
+		ListArray<T>::resize(max+1);
+		for(int i=max;i>pos;i--){
+			arr[i]=arr[i-1];			
+}
+		arr[pos]=e;		
+}
+}
+template <typename T>
+void ListArray<T>::append(T e){
+	insert(max+1,e);
+}
+template <typename T>
+void ListArray<T>::prepend(T e){
+	insert(0,e);
+}
+template <typename T>
+T ListArray<T>::remove(int pos){
+	T tmp;
+	if(pos<0 || pos>size()-1){
+                throw std::out_of_range("Está fuera del intervalo [0,size()-1]");
+	}else{
+		for(int i =pos+1; i<max;i++){
+			arr[i-1]=arr[i];
+		}resize(max-1);
+		return tmp;
+}
+}
+template <typename T>
+T ListArray<T>::get(int pos){
+	if(pos < 0|| pos >size()-1){
+		throw std::out_of_range("Está fuera del intervalo [0,size()-1]");
+	}
+	else{
+		return arr[pos];
+		}
+}
+
+template <typename T>
+int ListArray<T>::search(T e){
+for(int i=0; i <max; i++){
+		if(e == arr[i]){
+			return i;
+		 }
+	}
+	return -1;
+	}
+template <typename T>
+bool ListArray<T>::empty(){
+	if(n==0){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+template <typename T>
+int ListArray<T>::size(){
+	return n;
+	}	
+	
